@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { clsx } from "clsx";
-import styles from "@/styles/main.scss";
 
 interface InlineEditorProps {
   value: string;
