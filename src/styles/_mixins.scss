@@ -1,0 +1,158 @@
+@import "variables";
+
+// Flexbox utilities
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// Text utilities
+@mixin text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin text-truncate($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// Card styles
+@mixin card {
+  background: var(--surface);
+  border-radius: $radius-lg;
+  box-shadow: $shadow-md;
+  border: none;
+}
+
+@mixin card-hover {
+  transition: all 0.2s ease;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: $shadow-lg;
+  }
+}
+
+// Button styles
+@mixin btn-base {
+  border: 1px solid transparent;
+  border-radius: $radius-md;
+  padding: $spacing-sm $spacing-md;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+@mixin btn-primary {
+  @include btn-base;
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.05);
+  }
+}
+
+@mixin btn-ghost {
+  @include btn-base;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+
+  &:hover:not(:disabled) {
+    background: var(--hover);
+    color: var(--text);
+  }
+}
+
+@mixin btn-danger {
+  @include btn-base;
+  background: var(--danger);
+  color: white;
+  border-color: var(--danger);
+
+  &:hover:not(:disabled) {
+    filter: brightness(1.05);
+  }
+}
+// Input styles
+@mixin input-base {
+  width: 100%;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $radius-md;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  color: #000000;
+  font-size: $font-size-sm;
+
+  &:focus {
+    outline: none;
+    border-color: #0ea5e9;
+    box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.4);
+  }
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.65);
+  }
+}
+
+// Responsive breakpoints
+@mixin viewport($bp) {
+  @if $bp == sm {
+    @media (max-width: $breakpoint-sm) {
+      @content;
+    }
+  } @else if $bp == md {
+    @media (max-width: $breakpoint-md) {
+      @content;
+    }
+  } @else if $bp == lg {
+    @media (max-width: $breakpoint-lg) {
+      @content;
+    }
+  } @else if $bp == xl {
+    @media (max-width: $breakpoint-xl) {
+      @content;
+    }
+  }
+}
+
+// Drag and drop styles
+@mixin drag-preview {
+  opacity: 0.9;
+  transform: rotate(2deg);
+  box-shadow: $shadow-lg;
+}
+
+@mixin drag-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 1000;
+}

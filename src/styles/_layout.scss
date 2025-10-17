@@ -1,0 +1,460 @@
+@import "variables";
+@import "mixins";
+
+// Center board titles on boards page
+.boards-grid .board-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.boards-grid .board-card h3 {
+  margin: 0;
+  text-align: center;
+}
+
+// Board detail color theming
+:root {
+  --board-bg: initial;
+  --board-header: initial;
+}
+
+/* When board colors are set, use them */
+:root[style*="--board-bg"] .board {
+  background: var(--board-bg);
+}
+
+:root[style*="--board-header"] .site-header {
+  background: var(--board-header);
+  border-bottom-color: rgba(255, 255, 255, 0.12);
+}
+
+:root[style*="--board-header"] .site-logo,
+:root[style*="--board-header"] .site-nav-link {
+  color: #ffffff;
+}
+
+:root[style*="--board-header"] .site-nav-link:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: transparent;
+}
+
+/* Make '+ Add a list' follow the board header color */
+:root[style*="--board-header"] .add-list-button {
+  background: var(--board-header);
+  color: #ffffff;
+  border: none;
+}
+
+:root[style*="--board-header"] .add-list-button:hover {
+  filter: brightness(1.05);
+}
+
+// Boards page overrides
+.is-boards-page body {
+  background: #ffffff;
+}
+
+.is-boards-page .site-header {
+  background: rgb(46, 126, 175);
+}
+
+.is-boards-page .site-logo,
+.is-boards-page .site-nav-link {
+  color: #ffffff;
+}
+
+.is-boards-page .site-nav-link:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: transparent;
+}
+
+// Global site header
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--surface);
+}
+.site-logo img {
+  width: 10rem;
+  height: auto;
+}
+.site-header-inner {
+  margin: 0 auto;
+  padding: 0 $spacing-md;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  @include viewport(md) {
+    padding: 0 $spacing-md;
+  }
+}
+
+.site-header-left {
+  display: flex;
+  align-items: center;
+}
+
+.site-nav-link {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $radius-sm;
+  border: 1px solid transparent;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  &:hover {
+    background: var(--hover);
+    border-color: var(--border);
+  }
+}
+
+.site-nav-icon {
+  width: 14px;
+}
+
+.site-header-center {
+  display: flex;
+  justify-content: center;
+}
+
+.site-logo {
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--text);
+}
+
+.site-header-right {
+  display: flex;
+  justify-content: flex-end;
+  gap: $spacing-sm;
+}
+
+// Main board layout
+.board {
+  @include card;
+  padding: $spacing-lg;
+  min-height: calc(100vh - 56px);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 0;
+  @include viewport(md) {
+    padding: $spacing-md;
+  }
+}
+
+.board-header {
+  @include flex-between;
+  margin-bottom: $spacing-lg;
+
+  @include viewport(md) {
+    gap: $spacing-md;
+    align-items: flex-start;
+  }
+}
+
+.board-title {
+  font-size: $font-size-xl;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+
+  @include viewport(md) {
+    font-size: $font-size-lg;
+  }
+}
+
+// Lists container
+.lists-container {
+  display: flex;
+  gap: $spacing-md;
+  padding-bottom: $spacing-md;
+
+  // Hide scrollbar but keep functionality
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @include viewport(md) {
+    gap: $spacing-sm;
+  }
+}
+
+// Individual list
+.list {
+  @include card;
+  width: 300px;
+  min-width: 300px;
+  padding: $spacing-md;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  background: var(--surface-dark);
+  color: var(--text);
+
+  &.dragging {
+    opacity: 0.5;
+    transform: rotate(5deg);
+  }
+
+  @include viewport(md) {
+    width: 280px;
+    min-width: 280px;
+  }
+
+  @include viewport(sm) {
+    width: 260px;
+    min-width: 260px;
+  }
+}
+
+.list-header {
+  @include flex-between;
+  margin-bottom: $spacing-sm;
+}
+
+.list-title {
+  font-size: $font-size-base;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0;
+  @include text-ellipsis;
+}
+
+// Cards container
+.cards-container {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+  flex: 1;
+}
+
+// Add card button
+.add-card-button {
+  @include btn-ghost;
+  width: 100%;
+  padding: $spacing-sm;
+  margin-top: $spacing-sm;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  background: transparent;
+  text-align: left;
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--primary);
+    color: var(--text-dark) !important;
+  }
+}
+
+// Add list button
+.add-list-button {
+  @include btn-ghost;
+  width: 300px;
+  min-width: 300px;
+  height: 40px;
+  background: var(--board-header);
+  color: #ffffff;
+  @include flex-center;
+
+  @include viewport(md) {
+    width: 280px;
+    min-width: 280px;
+  }
+
+  @include viewport(sm) {
+    width: 260px;
+    min-width: 260px;
+  }
+}
+
+// Drag and drop states
+.drag-overlay {
+  @include drag-overlay;
+}
+
+.dragging {
+  opacity: 0.5;
+  transform: rotate(5deg);
+}
+
+.drag-preview {
+  @include drag-preview;
+}
+
+// Empty state
+.empty-state {
+  @include flex-center;
+  @include flex-column;
+  gap: $spacing-md;
+  padding: $spacing-xl;
+  color: var(--muted);
+  text-align: center;
+  min-height: 100vh;
+
+  .empty-icon {
+    font-size: 48px;
+    opacity: 0.5;
+  }
+
+  .empty-title {
+    font-size: $font-size-lg;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .empty-description {
+    font-size: $font-size-sm;
+    margin: 0;
+  }
+}
+
+// App layout
+.app {
+  min-height: 100vh;
+  background: var(--bg);
+}
+
+.app-header {
+  @include flex-between;
+  padding: $spacing-md;
+  background: var(--surface);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  @include viewport(md) {
+    flex-direction: column;
+    gap: $spacing-md;
+    align-items: flex-start;
+  }
+}
+
+.board-selector-dropdown {
+  select {
+    @include input-base;
+    min-width: 200px;
+  }
+}
+
+.header-actions {
+  display: flex;
+  gap: $spacing-sm;
+}
+
+// Board selector
+.board-selector {
+  padding: $spacing-xl;
+  min-height: 100vh;
+
+  h1 {
+    margin-bottom: $spacing-xl;
+    color: var(--text-dark);
+  }
+}
+
+.boards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  grid-auto-rows: minmax(9rem, 1fr);
+  gap: 1rem;
+
+  @include viewport(md) {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: $spacing-md;
+  }
+}
+
+.board-card {
+  @include card;
+  @include card-hover;
+  padding: $spacing-lg;
+  cursor: pointer;
+  text-align: center;
+  background: var(--surface);
+  color: var(--text);
+
+  h3 {
+    font-size: $font-size-lg;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0 0 $spacing-sm 0;
+  }
+
+  p {
+    font-size: $font-size-sm;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  &.add-board-card {
+    background: rgb(218, 221, 227);
+    h3 {
+      color: var(--text-dark);
+    }
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .add-icon {
+      font-size: 48px;
+      color: var(--muted);
+      margin-bottom: $spacing-sm;
+    }
+  }
+}
+
+// Loading and error states
+.loading-container,
+.error-container {
+  @include flex-center;
+  @include flex-column;
+  gap: $spacing-md;
+  min-height: 100vh;
+  text-align: center;
+
+  h2 {
+    color: var(--text);
+    margin: 0;
+  }
+
+  p {
+    color: var(--muted);
+    margin: 0;
+  }
+}
+
+.error-container {
+  p {
+    color: $error;
+  }
+}
+
+// Create board form layout
+.boards-grid .add-board-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.boards-grid .add-board-card .input {
+  width: 100%;
+}
+
+.boards-grid .add-board-card .color-picker {
+  display: flex;
+  gap: $spacing-sm;
+  flex-wrap: wrap;
+  margin-top: $spacing-sm;
+}
+
+.boards-grid .add-board-card .add-list-actions {
+  display: flex;
+  gap: $spacing-sm;
+  justify-content: flex-start;
+  margin-top: $spacing-sm;
+}

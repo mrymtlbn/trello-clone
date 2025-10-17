@@ -1,0 +1,615 @@
+@import "variables";
+@import "mixins";
+
+// Card component
+.card {
+  @include card;
+  @include card-hover;
+  padding: $spacing-md;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  background: var(--surface);
+  color: var(--text);
+
+  &:hover {
+    background: var(--hover);
+  }
+
+  &.dragging {
+    opacity: 0.5;
+    transform: rotate(5deg);
+  }
+
+  &.hovered {
+    .card-actions {
+      opacity: 1;
+    }
+  }
+}
+
+.card-content {
+  flex: 1;
+}
+
+.card-title {
+  font-size: $font-size-sm;
+  font-weight: 500;
+  color: var(--text-dark);
+  margin: 0 0 $spacing-xs 0;
+  @include text-ellipsis;
+}
+
+.card-description {
+  font-size: $font-size-xs;
+  color: var(--text-dark);
+  margin: 0;
+  @include text-truncate(3);
+}
+
+.card-actions {
+  position: absolute;
+  top: $spacing-xs;
+  right: $spacing-xs;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  display: flex;
+  gap: $spacing-xs;
+}
+
+// Button components
+.btn {
+  @include btn-base;
+
+  &.btn-primary {
+    @include btn-primary;
+  }
+
+  &.btn-ghost {
+    @include btn-ghost;
+  }
+
+  &.btn-sm {
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-size-xs;
+  }
+
+  &.btn-lg {
+    padding: $spacing-md $spacing-lg;
+    font-size: $font-size-lg;
+  }
+
+  &.btn-danger {
+    @include btn-danger;
+  }
+}
+
+// Input components
+.input {
+  @include input-base;
+}
+
+// Textarea component
+.textarea {
+  @include input-base;
+  min-height: 80px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+// Modal component
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.35);
+  @include flex-center;
+  z-index: 1000;
+  padding: $spacing-lg;
+
+  @include viewport(md) {
+    padding: $spacing-md;
+  }
+}
+
+.modal {
+  @include card;
+  width: 100%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: modalSlideIn 0.2s ease-out;
+
+  @include viewport(sm) {
+    max-height: 95vh;
+  }
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.98) translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-header {
+  @include flex-between;
+  padding: $spacing-lg;
+  border-bottom: 1px solid var(--border);
+
+  @include viewport(md) {
+    padding: $spacing-md;
+  }
+}
+
+.modal-title {
+  font-size: $font-size-lg;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+.modal-close {
+  @include btn-ghost;
+  padding: $spacing-xs;
+  min-width: auto;
+}
+
+.modal-body {
+  padding: $spacing-lg;
+
+  @include viewport(md) {
+    padding: $spacing-md;
+  }
+}
+.confirm-modal-body {
+  color: var(--text-dark);
+  padding: $spacing-md;
+}
+.modal-footer {
+  @include flex-between;
+  padding: $spacing-lg;
+  border-top: 1px solid var(--border);
+  gap: $spacing-md;
+
+  @include viewport(md) {
+    padding: $spacing-md;
+    flex-direction: column;
+  }
+}
+
+// Inline editor component
+.inline-editor {
+  width: 80%;
+  background: transparent;
+  border: none;
+  color: text-dark;
+  font: inherit;
+  padding: $spacing-xs;
+  margin: -$spacing-xs;
+  border-radius: $radius-sm;
+
+  &:focus {
+    outline: 2px solid var(--accent);
+    background: var(--hover);
+  }
+}
+
+.inline-editor-trigger {
+  cursor: pointer;
+  padding: $spacing-xs;
+  border-radius: $radius-sm;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background: var(--hover);
+  }
+
+  &.empty {
+    color: var(--muted);
+    font-style: italic;
+  }
+}
+
+// Dropdown component
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  @include card;
+  padding: $spacing-xs 0;
+  margin-top: $spacing-xs;
+  z-index: 100;
+  min-width: 200px;
+
+  .dropdown-item {
+    display: block;
+    width: 100%;
+    padding: $spacing-sm $spacing-md;
+    color: var(--text);
+    text-decoration: none;
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+    font-size: $font-size-sm;
+
+    &:hover {
+      background: var(--hover);
+    }
+
+    &.danger {
+      color: $error;
+
+      &:hover {
+        background: rgba($error, 0.08);
+      }
+    }
+  }
+}
+
+// Badge component
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $radius-sm;
+  font-size: $font-size-xs;
+  font-weight: 500;
+
+  &.badge-primary {
+    background: rgba(14, 165, 233, 0.18);
+    color: var(--primary);
+    border: 1px solid rgba(14, 165, 233, 0.2);
+  }
+
+  &.badge-success {
+    background: rgba($success, 0.18);
+    color: $success;
+    border: 1px solid rgba($success, 0.2);
+  }
+
+  &.badge-warning {
+    background: rgba($warning, 0.18);
+    color: $warning;
+    border: 1px solid rgba($warning, 0.2);
+  }
+
+  &.badge-error {
+    background: rgba($error, 0.18);
+    color: $error;
+    border: 1px solid rgba($error, 0.2);
+  }
+}
+
+// Loading spinner
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--hover);
+  border-top: 2px solid var(--primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// Tooltip
+.tooltip {
+  position: relative;
+
+  &::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: var(--text);
+    padding: $spacing-xs $spacing-sm;
+    border-radius: $radius-sm;
+    font-size: $font-size-xs;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    z-index: 1000;
+  }
+
+  &:hover::after {
+    opacity: 1;
+  }
+}
+
+// Form components
+.form-group {
+  margin-bottom: $spacing-md;
+}
+
+.form-label {
+  display: block;
+  font-size: $font-size-sm;
+  font-weight: 500;
+  color: var(--text-dark);
+  margin-bottom: $spacing-xs;
+}
+
+// Card modal
+.card-modal-content {
+  .form-group:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.card-meta {
+  margin-top: $spacing-lg;
+  padding: $spacing-md 0;
+  border-top: 1px solid var(--border);
+}
+
+.meta-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: $spacing-xs;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.meta-label {
+  font-size: $font-size-xs;
+  color: var(--text-dark);
+}
+
+.meta-value {
+  font-size: $font-size-xs;
+  color: var(--text-dark);
+}
+
+// Add card/list forms
+.add-card-form,
+.add-list-form {
+  @include card;
+  padding: $spacing-md;
+}
+
+.add-card-actions,
+.add-list-actions {
+  @include flex-between;
+  margin-top: $spacing-sm;
+  gap: $spacing-sm;
+}
+
+// Drawer styles (like MUI)
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  pointer-events: none;
+
+  &.open {
+    pointer-events: auto;
+  }
+}
+
+.drawer-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+
+  .drawer.open & {
+    opacity: 1;
+  }
+}
+
+.drawer-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border-radius: $radius-lg $radius-lg 0 0;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+
+  .drawer.open & {
+    transform: translateY(0);
+  }
+
+  @media (min-width: 768px) {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    bottom: auto;
+    right: auto;
+    transform: translate(-50%, -50%) scale(0.9);
+    max-width: 500px;
+    width: 90%;
+    border-radius: $radius-lg;
+    max-height: 80vh;
+
+    .drawer.open & {
+      transform: translate(-50%, -50%) scale(1);
+    }
+  }
+}
+
+.drawer-header {
+  @include flex-between;
+  padding: $spacing-lg;
+  border-bottom: 1px solid var(--border);
+
+  h2 {
+    margin: 0;
+    font-size: $font-size-lg;
+    font-weight: 600;
+  }
+}
+
+.drawer-close {
+  background: none;
+  border: none;
+  font-size: $font-size-xl;
+  cursor: pointer;
+  color: var(--muted);
+  padding: $spacing-xs;
+  border-radius: $radius-sm;
+
+  &:hover {
+    background: var(--hover);
+    color: var(--text);
+  }
+}
+
+.drawer-body {
+  padding: $spacing-lg;
+  color: var(--text-dark);
+}
+
+.drawer-footer {
+  @include flex-between;
+  padding: $spacing-lg;
+  border-top: 1px solid var(--border);
+  gap: $spacing-md;
+}
+
+// Footer actions
+.footer-actions {
+  display: flex;
+  gap: $spacing-sm;
+}
+
+// List header actions popover
+.list-header {
+  .list-actions {
+    position: relative;
+
+    > .btn {
+      padding: 0 $spacing-sm;
+      height: 28px;
+      line-height: 1;
+      border-radius: $radius-sm;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .menu {
+      position: absolute;
+      top: 90%;
+      left: 0;
+      margin-top: $spacing-sm;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: $radius-md;
+      box-shadow: var(--shadow-md);
+      min-width: 230px;
+      padding: 0;
+      z-index: 20;
+      animation: popover-in 140ms ease-out;
+    }
+
+    .menu-header {
+      @include flex-between;
+      padding: $spacing-sm $spacing-md;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-dark);
+    }
+
+    .menu-title {
+      font-weight: 600;
+      font-size: $font-size-sm;
+    }
+
+    .menu-close,
+    .menu-back {
+      background: transparent;
+      border: 0;
+      color: var(--muted);
+      cursor: pointer;
+      padding: $spacing-xs;
+      border-radius: $radius-sm;
+      line-height: 1;
+
+      &:hover {
+        background: var(--hover);
+        color: var(--text-dark);
+      }
+    }
+
+    .menu-body {
+      padding: $spacing-xs 0;
+      p {
+        color: var(--text-dark);
+        padding: $spacing-sm $spacing-md;
+      }
+    }
+
+    .menu-item {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: 0;
+      padding: $spacing-sm $spacing-md;
+      color: var(--text-dark);
+      font-size: $font-size-sm;
+      cursor: pointer;
+
+      &:hover {
+        background: var(--hover);
+      }
+      &:active {
+        background: rgba(15, 23, 42, 0.06);
+      }
+    }
+
+    .menu-footer {
+      padding: $spacing-sm $spacing-md;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+}
+
+@keyframes popover-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
